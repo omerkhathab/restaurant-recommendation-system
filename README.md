@@ -17,7 +17,7 @@ It utilizes:
 3. **Data Processing Layer**: R scripts for preprocessing and model training  
 4. **Data Storage**: In-memory structures derived from preprocessed Yelp data  
 
-## 🛠️ Technologies & Tools
+## Technologies & Tools
 
 ### Languages & Libraries
 - **R**
