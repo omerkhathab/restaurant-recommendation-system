@@ -28,11 +28,11 @@ function TagRecommender() {
     "diners", "do-it-yourself food", "donuts", "ethiopian", "ethnic food", "fast food", "festivals", "filipino", 
     "fish & chips", "fondue", "food", "food stands", "food trucks", "french", "fruits & veggies", "gelato", "german", 
     "gluten-free", "greek", "grocery", "halal", "hawaiian", "ice cream & frozen yogurt", "indian", "irish", "italian", 
-    "japanese", "korean", "kosher", "laotian", "latin american", "lebanese", "live/raw food", "local flavor", 
-    "mediterranean", "mexican", "middle eastern", "mongolian", "pakistani", "persian/iranian", "peruvian", "pizza", 
-    "polish", "restaurants", "russian", "salad", "sandwiches", "scandinavian", "seafood", "shaved ice", "soul food", 
-    "soup", "southern", "spanish", "specialty food", "steakhouses", "street vendors", "taiwanese", "tea rooms", "tex-mex", 
-    "thai", "turkish", "vegan", "vegetarian", "vietnamese",
+    "japanese", "korean", "kosher", "laotian", "latin american", "lebanese", "live/raw food", "mediterranean", "mexican", 
+    "middle eastern", "mongolian", "pakistani", "persian/iranian", "peruvian", "pizza", "polish", "restaurants", "russian", 
+    "salad", "sandwiches", "scandinavian", "seafood", "shaved ice", "soul food", "soup", "southern", "spanish", 
+    "specialty food", "steakhouses", "street vendors", "taiwanese", "tea rooms", "tex-mex", "thai", "turkish", "vegan", 
+    "vegetarian", "vietnamese",
   ];
   const handleSubmit = async (e) => {
     e.preventDefault();

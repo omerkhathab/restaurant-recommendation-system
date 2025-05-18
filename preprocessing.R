@@ -25,6 +25,7 @@ business <- business %>%
   mutate(categories = sapply(categories, toString)) 
 nrow(business) # 10313
 
+# keep it halal
 category_filter <- "Bar|Bars|Beer|Wine|Cocktail|Pub|Pubs|Pork|Hot Dogs|Gastropub|Breweries|Champagne|Spirits|Alcohol|Dive Bars|Lounges"
 
 ## Filter businesses using filter 
@@ -97,7 +98,7 @@ df <- business %>%
   transform(itemID=match(business_id, unique(business_id)))
 
 
-## PART 2 - Building the ratings matrix
+## PART 2 - Building the ratings matrix and recommender
 
 # spread data from long to wide format 
 matrix_data <- df %>% select(userID, itemID, stars) %>% spread(itemID, stars)
@@ -111,9 +112,7 @@ matrix_data <- matrix_data[sample(nrow(matrix_data)),]
 ui_mat <- matrix_data %>% as.matrix()
 ui_mat <- as(ui_mat,"realRatingMatrix")
 
-## PART 3
 # using recommenderlab, create UBCF recommender with z-score normalized data using cosine similarity
 UB <- Recommender(ui_mat, "UBCF", param=list(normalize = "Z-score", method="Cosine"))
-p <- predict(UB, ui_mat, type = "topNList", n = 50)
 
 save.image(file = "recommender_data.RData")

@@ -16,29 +16,23 @@ load("recommender_data.RData")
 function(user_id, n = 5) {
   n <- as.numeric(n)
   
-  # 1. Check if user_id exists in rownames
   if (!(user_id %in% rownames(ui_mat))) {
     return(list(error = "User ID not found in rating matrix."))
   }
   
-  # 2. Extract user row
   user_row <- ui_mat[user_id, , drop = FALSE]
   
-  # 3. Check if user has any ratings
   if (sum(as(user_row, "matrix"), na.rm = TRUE) == 0) {
     return(list(error = "User has no ratings. Cannot generate recommendations."))
   }
   
-  # 4. Predict ratings using UBCF
   user_pred <- predict(UB, user_row, type = "ratings")
   pred_matrix <- as(user_pred, "matrix")
   
-  # 5. Check if predictions contain only NAs
   if (all(is.na(pred_matrix))) {
     return(list(error = "No recommendations could be predicted for this user."))
   }
   
-  # 6. Sort predictions and get top N (e.g., 5)
   top_recs <- sort(pred_matrix[1, ], decreasing = TRUE)
   top_recs <- top_recs[!is.na(top_recs)]  # Remove NAs
   top_biz_ids_int <- as.integer(names(top_recs)[1:n])
@@ -47,7 +41,6 @@ function(user_id, n = 5) {
     select(itemID, business_id) %>% 
     distinct()
   
-  # 7. Map item IDs to business IDs
   actual_business_ids <- item_id_mapping %>%
     filter(itemID %in% top_biz_ids_int) %>%
     pull(business_id)
@@ -56,15 +49,13 @@ function(user_id, n = 5) {
     return(list(error = "No mapped business_ids found for predicted items."))
   }
   
-  # 8. Get metadata for recommended businesses
   recommended_businesses <- business %>%
     filter(business_id %in% actual_business_ids)
   
   if (nrow(recommended_businesses) == 0) {
-    return(list(error = "No business metadata found for recommendations."))
+    return(list(error = "No business information found for recommendations."))
   }
-  
-  # 9a. Add review stats to recommended businesses
+
   business_ratings <- review %>%
     filter(business_id %in% actual_business_ids) %>%
     group_by(business_id) %>%
@@ -74,7 +65,6 @@ function(user_id, n = 5) {
     ) %>%
     ungroup()
   
-  # 9b. Join review stats with business info
   results <- recommended_businesses %>%
     inner_join(business_ratings, by = "business_id") %>%
     select(business_id, name, city, state, full_address, categories, avg_rating, review_count)
@@ -107,7 +97,6 @@ function(tags, city_name = NULL, n = 5) {
       filter(str_detect(tolower(city), regex(city_name, ignore_case = TRUE)))
   }
 
-  # If no matches found, return error
   if (nrow(matching_businesses) == 0) {
     return(list(error = "No restaurants found matching these criteria"))
   }
@@ -137,23 +126,18 @@ function(tags, city_name = NULL, n = 5) {
 #* @get /user_features
 function(user_index) {
   
-  user_id_map <- df %>%
-    select(userID, user_id) %>%
-    distinct()
-  
-  string_id <- user_id_map %>%
-    filter(userID == as.integer(user_index)) %>%
-    pull(user_id)
-
-  name <- user %>%
-    filter(string_id == user_id) %>%
-    pull(user_name)
-  
   # 1. Filter reviews where the user rated 4 or 5 stars
   user_reviews <- review %>%
     filter(.data$user_id == user_id, stars >= 4)
   
-  # If user has no high ratings, return early
+  name <- df %>%
+    select(userID, user_id) %>%
+    distinct() %>%
+    filter(userID == as.integer(user_index)) %>%
+    inner_join(user, by = "user_id") %>%
+    pull(user_name)
+  
+  # If user has no high ratings
   if (nrow(user_reviews) == 0) {
     return(list(
       user_id = user_index,
@@ -182,8 +166,7 @@ function(user_index) {
   return(list(
     user_id = user_index,
     user_name = name,
-    user_features = names(preferred_categories),
-    frequencies = as.integer(preferred_categories)
+    user_features = names(preferred_categories)
   ))
 }
 
