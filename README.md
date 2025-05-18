@@ -8,7 +8,7 @@ It utilizes:
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ![System Architecture](images/system-architecture.png)
 
@@ -31,7 +31,7 @@ It utilizes:
 
 ---
 
-## 📊 Dataset
+## Dataset
 
 **Source**: [Yelp Dataset (RecSys Challenge 2013)](https://www.kaggle.com/competitions/yelp-recsys-2013)
 
@@ -47,7 +47,7 @@ It utilizes:
 
 ---
 
-## 🤖 Recommendation Methods
+## Recommendation Methods
 
 ### User-Based Collaborative Filtering
 Implemented using `recommenderlab`:
@@ -69,7 +69,7 @@ Via `/recommend_by_tags` endpoint:
 
 ---
 
-## 🔌 API Endpoints
+## API Endpoints
 
 ### `/recommend` (POST)
 
@@ -104,15 +104,15 @@ Via `/recommend_by_tags` endpoint:
 
 ---
 
-## 💻 Images
+## Images
 
-![Recommendations Page](images/recommendations.png)
+![Recommendations Page](images/recommendations-interface.png)
 ![Keyword/Tag based Search Page](images/keyword-based.png)
 ![User Search Page](images/user-based.png)
 
 ---
 
-## 📚 References
+## References
 
 1. [RecSys Challenge 2013](https://www.kaggle.com/competitions/yelp-recsys-2013)
 2. [RPubs - D612 Final Project](https://rpubs.com/jemceach/D612-Final-Project)
